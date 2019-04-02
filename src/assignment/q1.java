@@ -1,19 +1,41 @@
 package assignment;
 
 public class q1 {
+
+    private static Integer n;  // Radius for nodes
+    private static Integer b;  // Node count cap
+    private static Integer p;  // Degree for nodes
+    private static Double r;   // Radius for nodes
+
+    private static Board board;// Board object with obstacles + nodes
+    private static Node root;  // Root node where to start
+
     public static void main(String[] args){
-        Board board = new Board();
+        board = new Board();
 
-        int p = 5;      // threads
-        int n = 20;     // node cap
-        int b = 3;      // edge max
-        double r = 0.1; // radius
-        
-        Node seed = board.plantNode();
-        System.out.println("seed: " + seed.toString());
+        // Board specific variables
+        p = 5;
+        n = 20;
 
-        Node adj = board.plantAdjacent(seed);
-        System.out.println("adj: " + adj.toString());
+        // Node specific variables
+        b = 3;
+        r = 0.1;
+
+        // Add a root
+        root = board.plantNode();
+        System.out.println("seed: " + root.toString());
+
+        // Expand on the root
+        expand();
+    }
+
+    private static void expand(){
+        int count = 0;
+        while(count < n){
+            Node adj = board.plantAdjacent(root);
+            System.out.println("adj: " + adj.toString());
+            count++;
+        }
     }
 
 }

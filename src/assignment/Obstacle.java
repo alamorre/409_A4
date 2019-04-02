@@ -4,7 +4,7 @@ public class Obstacle {
     double x;
     double y;
 
-    public Obstacle(double x, double y){
+    Obstacle(double x, double y){
         this.x = x;
         this.y = y;
     }
