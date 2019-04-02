@@ -24,8 +24,12 @@ public class NodeQueue {
      * */
     public Node deq(){
         synchronized(nodeQueue){
-            Node n = nodeQueue.remove(0);
-            return n;
+            // If empty, return null
+            if(nodeQueue.size() == 0) return null;
+
+            // Else, return a null
+            else return nodeQueue.remove(0);
+
         }
     }
 

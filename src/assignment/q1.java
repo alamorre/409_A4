@@ -1,7 +1,11 @@
 package assignment;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class q1 {
 
+    private static Integer count = 1; // Start count with root
     private static Integer n;  // Radius for nodes
     private static Integer b;  // Node count cap
     private static Integer p;  // Degree for nodes
@@ -13,7 +17,7 @@ public class q1 {
 
     public static void main(String[] args){
         // Algorithm specific variables
-        p = 5;  // Thread count
+        p = 1;  // Thread count
         n = 9; // Node count
         r = 0.3;// Limit adjacent distances
         b = 3;  // Limit adjacent set size
@@ -24,32 +28,33 @@ public class q1 {
 
         // Add a root
         root = board.plantNode();
-        System.out.println("seed: " + root.toString());
+        nodeQueue.enq(root);
 
-        // Expand on the root
-        expand(root);
-    }
-
-    private static void expand(Node root){
-        // Start a counter and current node at root
-        int count = 1;
-        Node curr = root;
-
-        while(count < n){
-            // Try to plant an adjacent node
-            Node adj = board.plantAdjacent(curr);
-
-            // If null transfer to a new node
-            if(adj == null){
-                curr = nodeQueue.deq();
-
-            // Else add / print the new node and increment
-            } else {
-                nodeQueue.enq(adj);
-                System.out.println("adj: " + adj.toString());
-                count++;
-            }
+        // Define all the threads
+        ExecutorService executor = Executors.newFixedThreadPool(p);
+        Runner[] threads = new Runner[p];
+        for(int i = 0; i < p; i++){
+            threads[i] = new Runner(i, count, n, board, nodeQueue);
         }
+
+        // Start timer
+        long startTime = System.currentTimeMillis();
+
+        // Run parallel code
+        for(int i = 0; i < p; i++){
+            executor.execute(threads[i]);
+        }
+
+        // Shit down the threads
+        executor.shutdown();
+        while (!executor.isTerminated());
+
+        // End timer
+        long runTime = System.currentTimeMillis() - startTime;
+
+        // Return time delta
+        System.out.println("Runtime: " + runTime);
+
     }
 
 }
