@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 class Board {
 
+    private int obstableCount = 20;
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
 
     private double r; // Radial bound
@@ -13,35 +14,12 @@ class Board {
         this.r = r;
         this.b = b;
 
-        obstacles.add(new Obstacle(0.0, 0.5));
-        obstacles.add(new Obstacle(0.05, 0.5));
+        for(int i = 0; i < obstableCount; i++){
+            Obstacle o = new Obstacle(Math.random(), Math.random());
+            obstacles.add(o);
+            System.out.println("Ob " + (i+1) + ": " + o.toString());
+        }
 
-        obstacles.add(new Obstacle(0.1, 0.5));
-        obstacles.add(new Obstacle(0.15, 0.5));
-
-        obstacles.add(new Obstacle(0.2, 0.5));
-        obstacles.add(new Obstacle(0.25, 0.5));
-
-        obstacles.add(new Obstacle(0.3, 0.5));
-        obstacles.add(new Obstacle(0.35, 0.5));
-
-        obstacles.add(new Obstacle(0.4, 0.5));
-        obstacles.add(new Obstacle(0.45, 0.5));
-
-        obstacles.add(new Obstacle(0.5, 0.5));
-        obstacles.add(new Obstacle(0.55, 0.5));
-
-        obstacles.add(new Obstacle(0.6, 0.5));
-        obstacles.add(new Obstacle(0.65, 0.5));
-
-        obstacles.add(new Obstacle(0.7, 0.5));
-        obstacles.add(new Obstacle(0.75, 0.5));
-
-        obstacles.add(new Obstacle(0.8, 0.5));
-        obstacles.add(new Obstacle(0.85, 0.5));
-
-        obstacles.add(new Obstacle(0.9, 0.5));
-        obstacles.add(new Obstacle(0.95, 0.5));
     }
 
     /**
@@ -82,15 +60,12 @@ class Board {
         for(Node c : corners){
             // If above set above
             if(compare(p, q, c) == "Above"){
-                System.out.println("A");
                 isAbove = true;
             // If below set below
             } else if(compare(p, q, c) == "Below"){
-                System.out.println("B");
                 isBelow = true;
             // If equal set above and below
             } else if(compare(p, q, c) == "Equal"){
-                System.out.println("E");
                 isAbove = true;
                 isBelow = true;
             }

@@ -9,41 +9,46 @@ public class q1 {
 
     private static Board board;// Board object with obstacles + nodes
     private static Node root;  // Root node where to start
+    private static NodeQueue nodeQueue;  // Root node where to start
 
     public static void main(String[] args){
         // Algorithm specific variables
         p = 5;  // Thread count
-        n = 20; // Node count
+        n = 9; // Node count
         r = 0.3;// Limit adjacent distances
         b = 3;  // Limit adjacent set size
 
-        // Define the board
+        // Define the board and node queue
         board = new Board(r, b);
+        nodeQueue = new NodeQueue();
 
         // Add a root
         root = board.plantNode();
         System.out.println("seed: " + root.toString());
 
         // Expand on the root
-        expand();
+        expand(root);
     }
 
-    private static void expand(){
-        // Start a counter to n
+    private static void expand(Node root){
+        // Start a counter and current node at root
         int count = 1;
+        Node curr = root;
+
         while(count < n){
             // Try to plant an adjacent node
-            Node adj = board.plantAdjacent(root);
+            Node adj = board.plantAdjacent(curr);
 
-            // If null transfer thread to a new node
+            // If null transfer to a new node
             if(adj == null){
-                System.out.println("Limit");
-                break;
-            }
+                curr = nodeQueue.deq();
 
-            // Print the new node and increment
-            System.out.println("adj: " + adj.toString());
-            count++;
+            // Else add / print the new node and increment
+            } else {
+                nodeQueue.enq(adj);
+                System.out.println("adj: " + adj.toString());
+                count++;
+            }
         }
     }
 
