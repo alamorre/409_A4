@@ -11,15 +11,17 @@ public class q1 {
     private static Node root;  // Root node where to start
 
     public static void main(String[] args){
-        board = new Board();
-
-        // Board specific variables
+        // Algorithm specific variables
         p = 5;
         n = 20;
 
         // Node specific variables
         b = 3;
-        r = 0.1;
+
+        // Board specific variables
+        r = 0.3;
+
+        board = new Board(r);
 
         // Add a root
         root = board.plantNode();
@@ -30,7 +32,7 @@ public class q1 {
     }
 
     private static void expand(){
-        int count = 0;
+        int count = 1;
         while(count < n){
             Node adj = board.plantAdjacent(root);
             System.out.println("adj: " + adj.toString());

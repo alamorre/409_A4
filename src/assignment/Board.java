@@ -5,8 +5,11 @@ import java.util.ArrayList;
 class Board {
 
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
+    private double r;
 
-    Board(){
+    Board(double r){
+        this.r = r;
+
         obstacles.add(new Obstacle(0.0, 0.5));
         obstacles.add(new Obstacle(0.05, 0.5));
 
@@ -111,13 +114,20 @@ class Board {
     boolean isOnObstacle(Node n){
         // For each obstacle, if its within +-0.5 of o.x | o.y return true
         for(Obstacle o : obstacles){
-            if(o.x - 0.025 <= n.x && n.x <= o.x + 0.025 && o.y - 0.025 <= n.y && n.y <= o.y + 0.025){
+            if(o.x - 0.025 <= n.x && n.x <= o.x + 0.025 && o.y - 0.025 <= n.y && n.y <= o.y + 0.025)
                 return true;
-            }
+
         }
 
         // If passes, return false for clear
         return false;
+    }
+
+    /**
+     * This method ensure two nodes are in the radius
+     * */
+    private boolean withinRadius(Node n1, Node n2){
+        return Math.sqrt((n2.x - n1.x)*(n2.x - n1.x) + (n2.y - n1.y)*(n2.y - n1.y)) <= r;
     }
 
     /**
@@ -130,11 +140,12 @@ class Board {
 
         // Keep trying until it covers no obstacles
         do{
-            if(!isOnObstacle(node)){
+            if(!isOnObstacle(node))
                 planted = true;
-            } else {
+
+            else
                 node = new Node(Math.random(), Math.random());
-            }
+
         }while(!planted);
 
         // Return new node
@@ -148,11 +159,12 @@ class Board {
         // Make sure there are no
         boolean isValid = false;
         do{
-           if(validateEdge(n1, n2) /* AND IS IN RADIUS */){
+           if(validateEdge(n1, n2) && withinRadius(n1, n2))
                isValid = true;
-           } else {
+
+           else
                n2 = plantNode();
-           }
+
         }while(!isValid);
 
         // Return the result
