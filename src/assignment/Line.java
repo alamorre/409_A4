@@ -7,7 +7,7 @@ class Line {
     private double m;
     private double b;
 
-    private int acc = 10000;
+    private int acc = 1000000;
 
     Line(Node p, Node q){
         this.p = p;

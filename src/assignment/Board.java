@@ -7,9 +7,35 @@ class Board {
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
 
     Board(){
-        obstacles.add(new Obstacle(0.1, 0.1));
-        obstacles.add(new Obstacle(0.2, 0.2));
-        obstacles.add(new Obstacle(0.3, 0.3));
+        obstacles.add(new Obstacle(0.0, 0.5));
+        obstacles.add(new Obstacle(0.05, 0.5));
+
+        obstacles.add(new Obstacle(0.1, 0.5));
+        obstacles.add(new Obstacle(0.15, 0.5));
+
+        obstacles.add(new Obstacle(0.2, 0.5));
+        obstacles.add(new Obstacle(0.25, 0.5));
+
+        obstacles.add(new Obstacle(0.3, 0.5));
+        obstacles.add(new Obstacle(0.35, 0.5));
+
+        obstacles.add(new Obstacle(0.4, 0.5));
+        obstacles.add(new Obstacle(0.45, 0.5));
+
+        obstacles.add(new Obstacle(0.5, 0.5));
+        obstacles.add(new Obstacle(0.55, 0.5));
+
+        obstacles.add(new Obstacle(0.6, 0.5));
+        obstacles.add(new Obstacle(0.65, 0.5));
+
+        obstacles.add(new Obstacle(0.7, 0.5));
+        obstacles.add(new Obstacle(0.75, 0.5));
+
+        obstacles.add(new Obstacle(0.8, 0.5));
+        obstacles.add(new Obstacle(0.85, 0.5));
+
+        obstacles.add(new Obstacle(0.9, 0.5));
+        obstacles.add(new Obstacle(0.95, 0.5));
     }
 
     /**
@@ -78,4 +104,59 @@ class Board {
         }
         return true;
     }
+
+    /**
+     * Take a Node and check if it's on any obstacle
+     * */
+    boolean isOnObstacle(Node n){
+        // For each obstacle, if its within +-0.5 of o.x | o.y return true
+        for(Obstacle o : obstacles){
+            if(o.x - 0.025 <= n.x && n.x <= o.x + 0.025 && o.y - 0.025 <= n.y && n.y <= o.y + 0.025){
+                return true;
+            }
+        }
+
+        // If passes, return false for clear
+        return false;
+    }
+
+    /**
+     * This method will keep planting seed until it covers no obstacle
+     * */
+    Node plantNode(){
+        // Set Node and if plant was successful
+        Node node = new Node(Math.random(), Math.random());
+        boolean planted = false;
+
+        // Keep trying until it covers no obstacles
+        do{
+            if(!isOnObstacle(node)){
+                planted = true;
+            } else {
+                node = new Node(Math.random(), Math.random());
+            }
+        }while(!planted);
+
+        // Return new node
+        return node;
+    }
+
+    Node plantAdjacent(Node n1){
+        // Start with a node
+        Node n2 = plantNode();
+
+        // Make sure there are no
+        boolean isValid = false;
+        do{
+           if(validateEdge(n1, n2) /* AND IS IN RADIUS */){
+               isValid = true;
+           } else {
+               n2 = plantNode();
+           }
+        }while(!isValid);
+
+        // Return the result
+        return n2;
+    }
+
 }
