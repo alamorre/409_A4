@@ -11,8 +11,12 @@ public class Node {
         this.b = 0;
     }
 
-    public void setB(int b){
-        this.b = b;
+    public void incB(){
+        this.b++;
+    }
+
+    public int getB(){
+        return this.b;
     }
 
     public String toString(){

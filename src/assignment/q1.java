@@ -12,16 +12,13 @@ public class q1 {
 
     public static void main(String[] args){
         // Algorithm specific variables
-        p = 5;
-        n = 20;
+        p = 5;  // Thread count
+        n = 20; // Node count
+        r = 0.3;// Limit adjacent distances
+        b = 3;  // Limit adjacent set size
 
-        // Node specific variables
-        b = 3;
-
-        // Board specific variables
-        r = 0.3;
-
-        board = new Board(r);
+        // Define the board
+        board = new Board(r, b);
 
         // Add a root
         root = board.plantNode();
@@ -32,9 +29,19 @@ public class q1 {
     }
 
     private static void expand(){
+        // Start a counter to n
         int count = 1;
         while(count < n){
+            // Try to plant an adjacent node
             Node adj = board.plantAdjacent(root);
+
+            // If null transfer thread to a new node
+            if(adj == null){
+                System.out.println("Limit");
+                break;
+            }
+
+            // Print the new node and increment
             System.out.println("adj: " + adj.toString());
             count++;
         }

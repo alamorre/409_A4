@@ -5,10 +5,13 @@ import java.util.ArrayList;
 class Board {
 
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
-    private double r;
 
-    Board(double r){
+    private double r; // Radial bound
+    private double b; // Adjacent limit
+
+    Board(double r, int b){
         this.r = r;
+        this.b = b;
 
         obstacles.add(new Obstacle(0.0, 0.5));
         obstacles.add(new Obstacle(0.05, 0.5));
@@ -152,7 +155,14 @@ class Board {
         return node;
     }
 
+    /**
+     * This node will try to plant an adjacent node
+     * */
     Node plantAdjacent(Node n1){
+        if(n1.getB() == b){
+            return null;
+        }
+
         // Start with a node
         Node n2 = plantNode();
 
@@ -168,6 +178,8 @@ class Board {
         }while(!isValid);
 
         // Return the result
+        n1.incB();
+        n2.incB();
         return n2;
     }
 
