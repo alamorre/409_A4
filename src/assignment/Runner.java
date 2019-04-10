@@ -4,14 +4,10 @@ public class Runner implements Runnable  {
 
     // REFERENCE OBJECTS
     private int limit;
-    private Integer count;
-    private Integer tasks;
     private Board board;
     private NodeQueue nodeQueue;
 
-    Runner(Integer count, Integer tasks, int limit, Board board, NodeQueue nodeQueue){
-        this.count = count;
-        this.tasks = tasks;
+    Runner(int limit, Board board, NodeQueue nodeQueue){
         this.limit = limit;
         this.board = board;
         this.nodeQueue = nodeQueue;
@@ -25,8 +21,8 @@ public class Runner implements Runnable  {
             curr = nodeQueue.deq();
         }while(curr == null);
 
-        // CONSTANTS
-        while(count < this.limit){
+        // Condition of node max
+        while(board.getCount() < this.limit){
             // Try to plant an adjacent node
             Node adj = board.plantAdjacent(curr);
 
@@ -34,16 +30,11 @@ public class Runner implements Runnable  {
             if(adj == null){
                 curr = nodeQueue.deq();
 
-                // Else add / print the new node and increment
+            // Else add / print the new node and increment
             } else {
-                synchronized (count){
-                    nodeQueue.enq(adj);
-                    System.out.println("Adjacent " +  count + ": " + adj.toString());
-                    count++;
-                }
-                synchronized (tasks){
-                    tasks = tasks + 1;
-                }
+                board.incCount();       // Mark node as added
+                nodeQueue.enq(adj);     // Add the node
+                System.out.println("Adjacent: " + adj.toString());
             }
         }
     }

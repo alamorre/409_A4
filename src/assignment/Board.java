@@ -7,12 +7,14 @@ class Board {
     private int obstableCount = 20;
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
 
-    private double r; // Radial bound
-    private double b; // Adjacent limit
+    private double r;       // Radial bound
+    private double b;       // Adjacent limit
+    private int currCount;  // Max node count
 
-    Board(double r, int b){
+    Board(double r, int b, int currCount){
         this.r = r;
         this.b = b;
+        this.currCount = currCount;
 
         for(int i = 0; i < obstableCount; i++){
             Obstacle o = new Obstacle(Math.random(), Math.random());
@@ -157,4 +159,17 @@ class Board {
         return n2;
     }
 
+    /**
+     * This method will try to increment the count on the board
+     * */
+    synchronized void incCount(){
+        currCount = currCount + 1;
+    }
+
+    /**
+     * This method will return the final count
+     * */
+    synchronized int getCount(){
+        return currCount;
+    }
 }

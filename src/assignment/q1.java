@@ -25,7 +25,7 @@ public class q1 {
         b = Integer.parseInt(args[3]);      // Limit adjacent set size
 
         // Define the board and node queue
-        board = new Board(r, b);
+        board = new Board(r, b, count);
         nodeQueue = new NodeQueue();
 
         // Add a root
@@ -36,7 +36,7 @@ public class q1 {
         ExecutorService executor = Executors.newFixedThreadPool(p);
         Runner[] threads = new Runner[p];
         for(int i = 0; i < p; i++){
-            threads[i] = new Runner(count, tasks, n, board, nodeQueue);
+            threads[i] = new Runner(n, board, nodeQueue);
         }
 
         // Start timer
