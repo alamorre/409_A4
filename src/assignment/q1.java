@@ -5,22 +5,24 @@ import java.util.concurrent.Executors;
 
 public class q1 {
 
-    private static Integer count = 1; // Start count with root
-    private static Integer n;  // Radius for nodes
-    private static Integer b;  // Node count cap
-    private static Integer p;  // Degree for nodes
-    private static Double r;   // Radius for nodes
+    private static Integer count = 1;   // Start count with root
+    private static Integer tasks = 1;   // Final result, shared between threads
 
-    private static Board board;// Board object with obstacles + nodes
-    private static Node root;  // Root node where to start
-    private static NodeQueue nodeQueue;  // Root node where to start
+    private static Integer n;           // Radius for nodes
+    private static Integer b;           // Node count cap
+    private static Integer p;           // Degree for nodes
+    private static Double r;            // Radius for nodes
+
+    private static Board board;         // Board obj with obstacles + nodes
+    private static Node root;           // Root obj where to start
+    private static NodeQueue nodeQueue; // Queue obj of to-do jobs
 
     public static void main(String[] args){
         // Algorithm specific variables
-        p = 1;  // Thread count
-        n = 9; // Node count
-        r = 0.3;// Limit adjacent distances
-        b = 3;  // Limit adjacent set size
+        p = Integer.parseInt(args[0]);      // Thread count
+        n = Integer.parseInt(args[1]);      // Node count
+        r = Double.parseDouble(args[2]);    // Limit adjacent distances
+        b = Integer.parseInt(args[3]);      // Limit adjacent set size
 
         // Define the board and node queue
         board = new Board(r, b);
@@ -34,7 +36,7 @@ public class q1 {
         ExecutorService executor = Executors.newFixedThreadPool(p);
         Runner[] threads = new Runner[p];
         for(int i = 0; i < p; i++){
-            threads[i] = new Runner(i, count, n, board, nodeQueue);
+            threads[i] = new Runner(count, tasks, n, board, nodeQueue);
         }
 
         // Start timer
@@ -54,6 +56,7 @@ public class q1 {
 
         // Return time delta
         System.out.println("Runtime: " + runTime);
+        System.out.println("Tasks: " + tasks);
 
     }
 

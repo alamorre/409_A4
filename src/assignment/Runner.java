@@ -1,20 +1,17 @@
 package assignment;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class Runner implements Runnable  {
 
     // REFERENCE OBJECTS
-    private int id;
     private int limit;
     private Integer count;
+    private Integer tasks;
     private Board board;
     private NodeQueue nodeQueue;
 
-    public Runner(int id, Integer count, int limit, Board board, NodeQueue nodeQueue){
-        this.id = id;
+    Runner(Integer count, Integer tasks, int limit, Board board, NodeQueue nodeQueue){
         this.count = count;
+        this.tasks = tasks;
         this.limit = limit;
         this.board = board;
         this.nodeQueue = nodeQueue;
@@ -43,6 +40,9 @@ public class Runner implements Runnable  {
                     nodeQueue.enq(adj);
                     System.out.println("Adjacent " +  count + ": " + adj.toString());
                     count++;
+                }
+                synchronized (tasks){
+                    tasks = tasks + 1;
                 }
             }
         }

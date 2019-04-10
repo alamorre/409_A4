@@ -17,7 +17,6 @@ class Board {
         for(int i = 0; i < obstableCount; i++){
             Obstacle o = new Obstacle(Math.random(), Math.random());
             obstacles.add(o);
-            System.out.println("Ob " + (i+1) + ": " + o.toString());
         }
 
     }
