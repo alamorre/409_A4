@@ -34,7 +34,6 @@ public class Runner implements Runnable  {
             } else {
                 board.incCount();       // Mark node as added
                 nodeQueue.enq(adj);     // Add the node
-                System.out.println("Adjacent: " + adj.toString());
             }
         }
     }

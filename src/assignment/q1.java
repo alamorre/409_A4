@@ -5,8 +5,7 @@ import java.util.concurrent.Executors;
 
 public class q1 {
 
-    private static Integer count = 1;   // Start count with root
-    private static Integer tasks = 1;   // Final result, shared between threads
+    private static Integer count = 1;   // Task count staring with root
 
     private static Integer n;           // Radius for nodes
     private static Integer b;           // Node count cap
@@ -32,15 +31,15 @@ public class q1 {
         root = board.plantNode();
         nodeQueue.enq(root);
 
+        // Start timer
+        long startTime = System.currentTimeMillis();
+
         // Define all the threads
         ExecutorService executor = Executors.newFixedThreadPool(p);
         Runner[] threads = new Runner[p];
         for(int i = 0; i < p; i++){
             threads[i] = new Runner(n, board, nodeQueue);
         }
-
-        // Start timer
-        long startTime = System.currentTimeMillis();
 
         // Run parallel code
         for(int i = 0; i < p; i++){
@@ -51,12 +50,13 @@ public class q1 {
         executor.shutdown();
         while (!executor.isTerminated());
 
+
         // End timer
-        long runTime = System.currentTimeMillis() - startTime;
+        long runTime = (System.currentTimeMillis() - startTime);
 
         // Return time delta
         System.out.println("Runtime: " + runTime);
-        System.out.println("Tasks: " + tasks);
+        System.out.println("Tasks: " + board.getCount());
 
     }
 
